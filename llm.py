@@ -7,9 +7,6 @@ from typing import Iterator
 from models import Message
 from tools import TOOL_SCHEMAS
 
-_DEFAULT_BASE_URL = "你的_LLM_API_base_url"
-
-
 def chat_stream(model: str, messages: list[Message]) -> Iterator[dict]:
     """流式调用 LLM,yield 每个 chunk 的增量内容。
 
@@ -21,8 +18,12 @@ def chat_stream(model: str, messages: list[Message]) -> Iterator[dict]:
     """
     from openai import OpenAI
 
+    base_url = os.environ.get("MUSES_BASE_URL")
+    if not base_url:
+        raise RuntimeError("请设置环境变量 MUSES_BASE_URL")
+
     client = OpenAI(
-        base_url=os.environ.get("MUSES_BASE_URL", _DEFAULT_BASE_URL),
+        base_url=base_url,
         api_key=os.environ["MUSES_API_KEY"],
     )
     stream = client.chat.completions.create(

@@ -32,7 +32,7 @@ agent_loop.run()
 
 ```bash
 export MUSES_API_KEY="你的key"
-export MUSES_BASE_URL="你的_LLM_API_base_url"
+export MUSES_BASE_URL="你的 LLM API base_url"
 ```
 
 ## 运行
